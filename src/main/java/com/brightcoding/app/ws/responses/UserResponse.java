@@ -1,5 +1,5 @@
 package com.brightcoding.app.ws.responses;
-//On va afficher ses informations de l utilisateur pour la raison de sécurité 
+//On va afficher ses informations de l utilisateur pour des raisons de sécurité 
 //puisque on veut pas afficher tous les informations de l'utilisateur
 //donc c'est la reponse qui va contenir juste le firstname,lastname et l'email de l'utilisateur
 public class UserResponse {

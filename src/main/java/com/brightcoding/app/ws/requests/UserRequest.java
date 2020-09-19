@@ -1,5 +1,5 @@
 package com.brightcoding.app.ws.requests;
-
+//l'utilisateur va ajouter un utilisateur a la base de donnees avec ces informations
 public class UserRequest {
 	private String firstName;
 	private String lastName;
