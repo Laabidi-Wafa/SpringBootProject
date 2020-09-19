@@ -37,7 +37,7 @@ public class UserController {
 		BeanUtils.copyProperties(userRequest, userDto);//Couche représentation
 		
 		UserDto createUser = userService.createUser(userDto);
-		
+			
 		UserResponse userResponse = new UserResponse();//pour retourner de cette méthode le client enregistré
 		BeanUtils.copyProperties(createUser, userResponse);
 		return userResponse;
