@@ -7,6 +7,8 @@ public class UserDto implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2624881664878912922L;
+	//contient tous les infos sur l'utilisateur
+	//qui communique avec le service
 	
 	private long id;
 	private String userId;
