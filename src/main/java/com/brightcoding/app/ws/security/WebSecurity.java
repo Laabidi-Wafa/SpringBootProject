@@ -2,11 +2,13 @@ package com.brightcoding.app.ws.security;
 
 import org.apache.catalina.authenticator.SpnegoAuthenticator.AuthenticateAction;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFilter;
 
 import com.brightcoding.app.ws.services.UserService;
 @EnableWebSecurity
@@ -31,9 +33,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 			.authorizeRequests() 
 			.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL) //authoriser les requettes https post qui dans la route user et on va la garantir tous les privilieges
 			.permitAll()
-			.anyRequest().authenticated(); // apart les requettes http post il faut s'authentifier
+			.anyRequest().authenticated() // apart les requettes http post il faut s'authentifier 
+			.and()
+			.addFilter(
+					new AuthenticationFilter(authenticationManager(), null)
+					);
 			
-	}
+	}  
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
