@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFilter;
 
+
 import com.brightcoding.app.ws.services.UserService;
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter{
@@ -35,10 +36,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 			.permitAll()
 			.anyRequest().authenticated() // apart les requettes http post il faut s'authentifier 
 			.and()
-			.addFilter(
-					new AuthenticationFilter(authenticationManager(), null)
-					);
-			
+			.addFilter(new com.brightcoding.app.ws.security.AuthenticationFilter(authenticationManager()));
 	}  
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
