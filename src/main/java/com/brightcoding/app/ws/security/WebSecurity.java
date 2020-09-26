@@ -38,6 +38,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 			.and()
 			.addFilter(new com.brightcoding.app.ws.security.AuthenticationFilter(authenticationManager()));
 	}  
+	
+	protected com.brightcoding.app.ws.security.AuthenticationFilter getAuthenticationFilter() throws Exception {
+		final com.brightcoding.app.ws.security.AuthenticationFilter filter = new com.brightcoding.app.ws.security.AuthenticationFilter(authenticationManager());
+		filter.setFilterProcessesUrl("/users/login"); //on peut changer la route 
+		return filter;
+		
+	}
+	
+	
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
