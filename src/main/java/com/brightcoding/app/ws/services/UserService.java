@@ -9,5 +9,6 @@ public interface UserService extends UserDetailsService {
 										 //le retour de cette methode va etre un objet de type userDto
 	
 	//De préférable d'utiliser des classes qui implimentent les interfaces
+	UserDto getUser(String email);
 
 }

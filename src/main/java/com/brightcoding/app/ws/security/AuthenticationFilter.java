@@ -4,8 +4,7 @@ package com.brightcoding.app.ws.security;
 import java.util.ArrayList;
 import java.util.Date;
 
-
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,7 +12,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.brightcoding.app.ws.SpringApplicationContext;
 import com.brightcoding.app.ws.requests.UserLoginRequest;
+import com.brightcoding.app.ws.services.UserService;
+import com.brightcoding.app.ws.shared.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Jwts;
@@ -31,7 +33,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	public AuthenticationFilter(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
 	}
-
+	
+	
+	
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
 			throws AuthenticationException {
@@ -58,9 +62,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 				.signWith(SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET)
 				.compact();
 				
-				
+			UserService userService = (UserService)SpringApplicationContext.getBean("userServiceImpl");
+			UserDto userDto = userService.getUser(userName);
 			res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token );
-		
+			res.addHeader("user_id", userDto.getUserId());
 		
 		
 		
