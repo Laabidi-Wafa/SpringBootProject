@@ -36,7 +36,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 			.permitAll()
 			.anyRequest().authenticated() // apart les requettes http post il faut s'authentifier 
 			.and()
-			.addFilter(new com.brightcoding.app.ws.security.AuthenticationFilter(authenticationManager()));
+			.addFilter(getAuthenticationFilter());
 	}  
 	
 	protected com.brightcoding.app.ws.security.AuthenticationFilter getAuthenticationFilter() throws Exception {
