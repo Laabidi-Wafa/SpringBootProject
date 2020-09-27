@@ -4,11 +4,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.brightcoding.app.ws.entities.UserEntity;
 import com.brightcoding.app.ws.requests.UserRequest;
 import com.brightcoding.app.ws.responses.UserResponse;
 import com.brightcoding.app.ws.services.UserService;
@@ -21,10 +24,13 @@ public class UserController {
 	@Autowired
 	UserService userService ; //l'injection de dépendance a la place de new
 	
-	@GetMapping
-	public String getUser()
+	@GetMapping(path="/{id}") //localhost:8080/users/id
+	public UserResponse getUser(@PathVariable String id)//il faur le déclarer ici comme paramètre avec le MEME NOM
 	{
-		return "get user was called";
+		UserDto userDto = userService.getUserByUserId(id);
+		UserResponse userResponse = new UserResponse();
+		BeanUtils.copyProperties(userDto, userResponse);
+		return userResponse;
 	}
 	
     /* -------------------------------------------------------------------------------------------- */
