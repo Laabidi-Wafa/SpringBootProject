@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		// TODO Recupere l'utilisateur authentifie de la base de donnees
+		// TODO Recupere l'utilisateur authentifie de la base de données 
 		UserEntity userEntity = userRepository.findByEmail(email);
 		if (userEntity == null) throw new UsernameNotFoundException(email);
 		
@@ -80,6 +80,36 @@ public class UserServiceImpl implements UserService {
 		BeanUtils.copyProperties(userEntity, userDto);
 		return userDto;
 	
+	}
+
+	@Override
+	public UserDto updateUser(String userId, UserDto userDto) {
+		
+		UserEntity userEntity = userRepository.findByUserId(userId); //on va chercher l'utilisateur par son id
+		
+		if (userEntity == null) throw new UsernameNotFoundException(userId); // si l'utilisateur n'existe pas on va déclancher cette exeception
+		
+		userEntity.setFirstName(userDto.getFirstName()); // on va modifier le first name
+		
+		userEntity.setLastName(userDto.getLastName()); // et le last name
+		
+		UserEntity userUpdated = userRepository.save(userEntity); //persister la modification a la base de donnees et on va enregistrer cette modif en userUpdated
+		
+		UserDto user = new UserDto(); // on a creer un nouveau user
+		
+		BeanUtils.copyProperties(userUpdated, user); // on a copier les donnees dans ce nouveau user
+		
+		return user; // on a retourné cet nouveau utilisateur
+	}
+
+	@Override
+	public void deleteUser(String userId) {
+		UserEntity userEntity = userRepository.findByUserId(userId); //on va chercher l'utilisateur par son id
+		
+		if (userEntity == null) throw new UsernameNotFoundException(userId); // si l'utilisateur n'existe pas on va déclancher cette exeception
+		
+		userRepository.delete(userEntity); // va supprimer lentite passé en parametre
+		
 	}
 
 }
