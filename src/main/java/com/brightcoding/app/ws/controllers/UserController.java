@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brightcoding.app.ws.entities.UserEntity;
+import com.brightcoding.app.ws.exceptions.UserException;
 import com.brightcoding.app.ws.requests.UserRequest;
+import com.brightcoding.app.ws.responses.ErrorMessages;
 import com.brightcoding.app.ws.responses.UserResponse;
 import com.brightcoding.app.ws.services.UserService;
 import com.brightcoding.app.ws.shared.dto.UserDto;
@@ -40,11 +42,13 @@ public class UserController {
 	
 	
 	@PostMapping(
-			consumes={MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_XML_VALUE},
-			produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_XML_VALUE}
+			consumes={MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+			produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
 	)
-	public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest)
+	public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) throws Exception //userRequest contient les infos de l'utilisateur qu'on va créer
 	{
+		if (userRequest.getFirstName().isEmpty()) throw new UserException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+		
 		UserDto userDto = new UserDto();//Couche représentation
 		BeanUtils.copyProperties(userRequest, userDto);//Couche représentation
 		
@@ -62,8 +66,8 @@ public class UserController {
 	/* les attributs qui sont au niveau de userRequest*/
 	
 	@PutMapping(path="/{id}",
-			consumes={MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_XML_VALUE},
-			produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_XML_VALUE}
+			consumes={MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+			produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
 	) 
 	public ResponseEntity<UserResponse> updateUser(@PathVariable String id, @RequestBody UserRequest userRequest)//path variable cad springboot va connaitre que cette paramètre va recevoir le contenu de segment dynamique
 	{												// qui a le meme nom BIEN SUR
