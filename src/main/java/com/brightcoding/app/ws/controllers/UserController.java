@@ -2,12 +2,11 @@ package com.brightcoding.app.ws.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.brightcoding.app.ws.entities.UserEntity;
 import com.brightcoding.app.ws.exceptions.UserException;
 import com.brightcoding.app.ws.requests.UserRequest;
 import com.brightcoding.app.ws.responses.ErrorMessages;
@@ -51,6 +48,9 @@ public class UserController {
 	
     /* ----------------------------------------GetAllUsers---------------------------------------------------- */
 	
+	
+	
+	
 	@GetMapping(produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public List<UserResponse> getAllUsers(@RequestParam(value="page", 
 	defaultValue="1") int page,@RequestParam(value="limit",defaultValue="15") int limit){ // pour utiliser la pagination il faut spécifier la pages et le nombre d'utilisateur maximal /page
@@ -73,9 +73,10 @@ public class UserController {
 	}
 	
 	
-
 	
 	/* --------------------------------------CreateUser------------------------------------------------------ */
+	
+	
 	@PostMapping(
 			consumes={MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
 			produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
@@ -84,17 +85,25 @@ public class UserController {
 	{
 		if (userRequest.getFirstName().isEmpty()) throw new UserException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 		
-		UserDto userDto = new UserDto();//Couche représentation
+		ModelMapper modelMapper = new ModelMapper();
+		UserDto userDto = modelMapper.map(userRequest, UserDto.class);
+		
+		//UserDto userDto = new UserDto();//Couche représentation
+		
 		BeanUtils.copyProperties(userRequest, userDto);//Couche représentation
 		
 		UserDto createUser = userService.createUser(userDto);
 			
 		UserResponse userResponse = new UserResponse();//pour retourner de cette méthode le client enregistré
+		
 		BeanUtils.copyProperties(createUser, userResponse);
+		
 		return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
 	}
 	
 	/* ------------------------------------------UpdateUser-------------------------------------------------- */
+	
+	
 	
 	/*Pour modifier un utilisateur il faut passer en paramètre l'id de l'utilisateur qu'on va modifier*/
 	/*Le RequestBody va contenir les infos qui sont localises au niveau de userRequest et qu'on va les modifier cad on va juste modifier les*/

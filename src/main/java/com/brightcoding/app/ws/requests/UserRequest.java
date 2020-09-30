@@ -1,5 +1,7 @@
 package com.brightcoding.app.ws.requests;
 
+import java.util.List;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -45,6 +47,20 @@ public class UserRequest {
 	
 	/****************************************************************************************************************************/
 	
+	
+	private List<AddressRequest> addresses; //liste des objets
+
+	
+	/****************************************************************************************************************************/
+	
+	
+	public List<AddressRequest> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressRequest> addresses) {
+		this.addresses = addresses;
+	}
 
 	public String getFirstName() {
 		

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import com.brightcoding.app.ws.entities.UserEntity;
 import com.brightcoding.app.ws.repositories.UserRepository;
-import com.brightcoding.app.ws.responses.UserResponse;
 import com.brightcoding.app.ws.services.UserService;
 import com.brightcoding.app.ws.shared.Utils;
 import com.brightcoding.app.ws.shared.dto.UserDto;
