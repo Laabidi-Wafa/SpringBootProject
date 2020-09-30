@@ -9,18 +9,32 @@ import javax.validation.constraints.Size;
 //l'utilisateur va ajouter un utilisateur a la base de donnees avec ces informations
 public class UserRequest {
 	
+	/*****************************************************Attribut firstName***********************************************************************/
+	
 	
 	@NotBlank(message="Ce champ ne doit pas etre vide les espaces ne sont pas considérés comme caractères !!")
 	@Size(min=3 , message ="Le firstName doit contenir au moins 3 caractères")
 	private String firstName;
 	
+	
+	/*******************************************************Attribut lastName********************************************************************/
+	
+	
 	@NotBlank(message="Ce champ ne doit pas etre vide les espaces ne sont pas considérés comme caractères !!")
 	@Size(min=3 , message ="Le LastName doit contenir au moins 3 caractères")
 	private String lastName;
 	
+	
+	/********************************************************Attribut Email********************************************************************/
+	
+	
 	@NotBlank(message="Ce champ ne doit pas etre vide les espaces ne sont pas considérés comme caractères !!")
 	@Email(message="La format de l'email doit etre <quelquechose@quelquechose.quelquechose> ")
 	private String email;
+	
+	
+	/**********************************************************Attribut Password******************************************************************/
+	
 	
 	@NotNull(message="Ce champ ne doit pas etre null!")
 	@Size(min=8, message="Le password doit contenir au moins 8 caractères ")
@@ -28,6 +42,8 @@ public class UserRequest {
 	@Pattern(regexp="(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message="le password doit contenir une lettre majuscule, des lettres miniscules et chiffres")
 	private String password;
 	
+	
+	/****************************************************************************************************************************/
 	
 
 	public String getFirstName() {

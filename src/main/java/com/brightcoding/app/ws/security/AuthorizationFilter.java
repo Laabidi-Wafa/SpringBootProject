@@ -22,6 +22,10 @@ public class AuthorizationFilter extends BasicAuthenticationFilter{
 		// TODO Auto-generated constructor stub
 	}
 	
+	
+	/****************************************************************************************************************************/
+	
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest req,
 			HttpServletResponse res, FilterChain chain)
@@ -38,6 +42,8 @@ public class AuthorizationFilter extends BasicAuthenticationFilter{
 		chain.doFilter(req, res);
 	}
 
+	
+	/****************************************************************************************************************************/
 	
 	
 	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {

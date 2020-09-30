@@ -16,6 +16,12 @@ import com.brightcoding.app.ws.responses.ErrorMessage;
 
 @ControllerAdvice
 public class AppExceptionHandler {
+	
+	
+	
+	
+	/****************************************************************************************************************************/
+	
 	@ExceptionHandler(value= {UserException.class})
 	public ResponseEntity<Object> HandleUserException(UserException ex, WebRequest request){
 		ErrorMessage errorMessage = new ErrorMessage(new Date(), ex.getMessage());
@@ -24,7 +30,7 @@ public class AppExceptionHandler {
 	}
 	
 	
-	
+	/****************************************************************************************************************************/
 	
 	@ExceptionHandler(value=Exception.class)
 	public ResponseEntity<Object> HandleOtherExceptions(Exception ex, WebRequest request){
@@ -33,7 +39,7 @@ public class AppExceptionHandler {
 		
 	}
 	
-	
+	/****************************************************************************************************************************/
 	
 	@ExceptionHandler(value=MethodArgumentNotValidException.class)
 	public ResponseEntity<Object> HandleMethodArgumentNotValid(MethodArgumentNotValidException ex, WebRequest request){
@@ -53,5 +59,5 @@ public class AppExceptionHandler {
 		return new ResponseEntity<>(errors, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		
 	}
-	
+	/****************************************************************************************************************************/
 }

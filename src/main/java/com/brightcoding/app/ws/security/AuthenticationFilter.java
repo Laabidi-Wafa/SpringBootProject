@@ -34,7 +34,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 		this.authenticationManager = authenticationManager;
 	}
 	
-	
+
+	/****************************************************************************************************************************/
 	
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
@@ -48,6 +49,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	
+	/****************************************************************************************************************************/
+	
 	
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req, 

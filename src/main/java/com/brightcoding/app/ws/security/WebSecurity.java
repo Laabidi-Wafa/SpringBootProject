@@ -24,6 +24,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 			this.userDetailsService=userDetailsService;
 			this.bCryptPasswordEncoder=bCryptPasswordEncoder;
 		}
+		
+		/****************************************************************************************************************************/
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -43,12 +45,19 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}  
 	
+	
+	/****************************************************************************************************************************/
+	
 	protected com.brightcoding.app.ws.security.AuthenticationFilter getAuthenticationFilter() throws Exception {
 		final com.brightcoding.app.ws.security.AuthenticationFilter filter = new com.brightcoding.app.ws.security.AuthenticationFilter(authenticationManager());
 		filter.setFilterProcessesUrl("/users/login"); //on peut changer la route 
 		return filter;
 		
 	}
+	
+	
+	
+	/****************************************************************************************************************************/
 	
 	
 	
