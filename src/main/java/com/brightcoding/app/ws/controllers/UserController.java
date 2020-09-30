@@ -3,6 +3,8 @@ package com.brightcoding.app.ws.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +36,10 @@ public class UserController {
 	@Autowired
 	UserService userService ; //l'injection de dépendance a la place de new
 	
+	
+	/* -----------------------------------------------GetUser--------------------------------------------- */
+	
+	
 	@GetMapping(path="/{id}", produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}) //localhost:8080/users/id avec un id dynamique cad qui change
 	public ResponseEntity<UserResponse> getUser(@PathVariable String id)//il faut le déclarer ici comme paramètre avec le MEME NOM
 	{
@@ -43,7 +49,7 @@ public class UserController {
 		return new ResponseEntity<>(userResponse, HttpStatus.OK);
 	}
 	
-    /* -------------------------------------------------------------------------------------------- */
+    /* ----------------------------------------GetAllUsers---------------------------------------------------- */
 	
 	@GetMapping(produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public List<UserResponse> getAllUsers(@RequestParam(value="page", 
@@ -67,29 +73,14 @@ public class UserController {
 	}
 	
 	
+
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/* -------------------------------------------------------------------------------------------- */
+	/* --------------------------------------CreateUser------------------------------------------------------ */
 	@PostMapping(
 			consumes={MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
 			produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
 	)
-	public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) throws Exception //userRequest contient les infos de l'utilisateur qu'on va créer
+	public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserRequest userRequest) throws Exception //userRequest contient les infos de l'utilisateur qu'on va créer
 	{
 		if (userRequest.getFirstName().isEmpty()) throw new UserException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 		
@@ -103,7 +94,7 @@ public class UserController {
 		return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
 	}
 	
-	/* -------------------------------------------------------------------------------------------- */
+	/* ------------------------------------------UpdateUser-------------------------------------------------- */
 	
 	/*Pour modifier un utilisateur il faut passer en paramètre l'id de l'utilisateur qu'on va modifier*/
 	/*Le RequestBody va contenir les infos qui sont localises au niveau de userRequest et qu'on va les modifier cad on va juste modifier les*/
@@ -128,7 +119,7 @@ public class UserController {
 	}
 	
 	
-	/* -------------------------------------------------------------------------------------------- */
+	/* ------------------------------------------DeleteUser-------------------------------------------------- */
 	
 	
 	@DeleteMapping(path="/{id}") 

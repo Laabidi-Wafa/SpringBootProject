@@ -1,10 +1,34 @@
 package com.brightcoding.app.ws.requests;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 //l'utilisateur va ajouter un utilisateur a la base de donnees avec ces informations
 public class UserRequest {
+	
+	
+	@NotBlank(message="Ce champ ne doit pas etre vide les espaces ne sont pas considérés comme caractères !!")
+	@Size(min=3 , message ="Le firstName doit contenir au moins 3 caractères")
 	private String firstName;
+	
+	@NotBlank(message="Ce champ ne doit pas etre vide les espaces ne sont pas considérés comme caractères !!")
+	@Size(min=3 , message ="Le LastName doit contenir au moins 3 caractères")
 	private String lastName;
+	
+	@NotBlank(message="Ce champ ne doit pas etre vide les espaces ne sont pas considérés comme caractères !!")
+	@Email(message="La format de l'email doit etre <quelquechose@quelquechose.quelquechose> ")
 	private String email;
+	
+	@NotNull(message="Ce champ ne doit pas etre null!")
+	@Size(min=8, message="Le password doit contenir au moins 8 caractères ")
+	@Size(max=12, message="Le password doit contenir au max 12 caractères ")
+	@Pattern(regexp="(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message="le password doit contenir une lettre majuscule, des lettres miniscules et chiffres")
 	private String password;
+	
+	
 
 	public String getFirstName() {
 		
