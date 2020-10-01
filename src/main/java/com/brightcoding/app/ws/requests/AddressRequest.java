@@ -6,6 +6,8 @@ public class AddressRequest {
 	private String country;
 	private String street;
 	private String postal;
+	private String type;
+	
 	
 	public String getCity() {
 		return city;
@@ -37,5 +39,5 @@ public class AddressRequest {
 	public void setType(String type) {
 		this.type = type;
 	}
-	private String type;
+	
 }

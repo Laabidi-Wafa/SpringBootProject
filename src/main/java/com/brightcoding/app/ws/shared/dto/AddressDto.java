@@ -2,10 +2,12 @@ package com.brightcoding.app.ws.shared.dto;
 
 public class AddressDto {
 	private Long id;
+	private String addressId;
 	private String city;
 	private String country;
 	private String street;
 	private String postal;
+	private String type;
 	private UserDto user;  //un utilisateur userDto peut avoir beaucoup d'adresses mais l'adresse peut avoir qu'un seul user relation:  OneToMany
 	
 	
@@ -51,5 +53,12 @@ public class AddressDto {
 	public void setUser(UserDto user) {
 		this.user = user;
 	}
-	private String type;
+	public String getAddressId() {
+		return addressId;
+	}
+	public void setAddressId(String addressId) {
+		this.addressId = addressId;
+	}
+	
+
 }

@@ -1,46 +1,64 @@
 package com.brightcoding.app.ws.entities;
 
 import java.io.Serializable;
-
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-@Entity(name="users")
+import javax.persistence.OneToMany;
+
+@Entity(name = "users")
 public class UserEntity implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5763827745308343856L;
-	
-	//pour que l'id devient auto-incrimenté il faut ajouter l annotation id 
-	
+
+	// pour que l'id devient auto-incrimenté il faut ajouter l annotation id
+
 	@Id
 	@GeneratedValue
 	private long id;
-	
-	@Column(nullable=false)	
+
+	@Column(nullable = false)
 	private String userId;
-	
-	@Column(nullable=false, length=50)
+
+	@Column(nullable = false, length = 50)
 	private String firstName;
-	
-	@Column(nullable=false, length=50)
+
+	@Column(nullable = false, length = 50)
 	private String lastName;
-	
-	@Column(nullable=false, length=120, unique=true)
+
+	@Column(nullable = false, length = 120, unique = true)
 	private String email;
-	
-	@Column(nullable=false)	
+
+	@Column(nullable = false)
 	private String encryptedPassword;
-	
-	@Column(nullable=true)
+
+	@Column(nullable = true)
 	private String emailVerificationToken;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private Boolean emailVerficationStatus = false;
 
+	/**
+	 * @todo on a lié l'objet user avec addresses On a ajouté cascase all pourque si
+	 *       on crée un utilisateur addresses se crée avec lui si on supprime un
+	 *       utilisateur addresses se supprime avec lui
+	 */
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<AddressEntity> addresses;
+
+	public List<AddressEntity> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressEntity> addresses) {
+		this.addresses = addresses;
+	}
+
+	/*****************************************************/
 	public long getId() {
 		return id;
 	}

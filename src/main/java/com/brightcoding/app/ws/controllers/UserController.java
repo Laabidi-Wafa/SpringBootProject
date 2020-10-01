@@ -90,15 +90,15 @@ public class UserController {
 		
 		//UserDto userDto = new UserDto();//Couche représentation
 		
-		BeanUtils.copyProperties(userRequest, userDto);//Couche représentation
-		
+		//BeanUtils.copyProperties(userRequest, userDto);//Couche représentation
 		UserDto createUser = userService.createUser(userDto);
 			
-		UserResponse userResponse = new UserResponse();//pour retourner de cette méthode le client enregistré
 		
-		BeanUtils.copyProperties(createUser, userResponse);
+		//BeanUtils.copyProperties(createUser, userResponse); on a supprimé cette ecriture puisque on a la remplacé avec le modelMapper qui va retourné bs un objet de type userResponse
+		UserResponse userResponse =  modelMapper.map(createUser, UserResponse.class);
 		
-		return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
+		
+		return new ResponseEntity<UserResponse>(userResponse, HttpStatus.CREATED);
 	}
 	
 	/* ------------------------------------------UpdateUser-------------------------------------------------- */

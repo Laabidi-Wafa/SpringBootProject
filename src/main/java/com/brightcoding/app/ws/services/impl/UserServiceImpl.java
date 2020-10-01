@@ -3,6 +3,7 @@ package com.brightcoding.app.ws.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import com.brightcoding.app.ws.entities.UserEntity;
 import com.brightcoding.app.ws.repositories.UserRepository;
 import com.brightcoding.app.ws.services.UserService;
 import com.brightcoding.app.ws.shared.Utils;
+import com.brightcoding.app.ws.shared.dto.AddressDto;
 import com.brightcoding.app.ws.shared.dto.UserDto;
 
 @Service // pour que spring boot injecte le service dans la classe userController il faut
@@ -36,7 +38,10 @@ public class UserServiceImpl implements UserService {
 				// aléatoires == methode
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    /* -------------------------------------------------------------------------------------------- */
+	/*
+	 * ---------------------------
+	 * createUser-----------------------------------------------------------------
+	 */
 
 	@Override
 	public UserDto createUser(UserDto user) {
@@ -47,25 +52,46 @@ public class UserServiceImpl implements UserService {
 			throw new RuntimeException("ATTENTION : un utilisateur avec ce mail existe déja !!"); // si l'email existe
 																									// il va déclancher
 																									// cette exception
-		UserEntity userEntity = new UserEntity(); // un nouveau utilisateur
+		// UserEntity userEntity = new UserEntity(); //lorsqu'on travaille avec
+		// modelMapper c pas la peine de créer un nouveau user puisque il va retourner
+		// un objet de type userEntity
 
-		BeanUtils.copyProperties(user, userEntity); // copie les informations de user vers userEntity
+		// BeanUtils.copyProperties(user, userEntity); // copie les informations de user
+		// vers userEntity
 
+
+		
+		for(int i=0; i< user.getAddresses().size(); i++) {
+			AddressDto address = user.getAddresses().get(i); // a la premiere itération on va ajouter la premier adresse situé au niveau de Addresses
+															// et on va l'affecter a l'objet address
+			address.setUser(user); //on ajoute l'utilisateur
+			address.setAddressId(util.generateStringId(30));
+			user.getAddresses().set(i, address); // on fait la mise a jour au niveau de l'utilisateur pour prend en considération les adresses ajoutés
+	
+		}			
+		
+		
+		ModelMapper modelMapper = new ModelMapper();
+		UserEntity userEntity = modelMapper.map(user, UserEntity.class);
 		userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));// valeur pour encrypted
 																							// password
-		userEntity.setUserId(util.generateUserId(32)); // valeur generee automatiquement avec la longeur de 32
+		userEntity.setUserId(util.generateStringId(32)); // valeur generee automatiquement avec la longeur de 32
 														// caracteres
 
 		UserEntity newUser = userRepository.save(userEntity); // persister l'objet
 
-		UserDto userDto = new UserDto();
+		//UserDto userDto = new UserDto();
 
-		BeanUtils.copyProperties(newUser, userDto);
+		//BeanUtils.copyProperties(newUser, userDto);
+		UserDto userDto = modelMapper.map(newUser, UserDto.class);
 
 		return userDto;
 	}
 
-    /* -------------------------------------------------------------------------------------------- */
+	/*
+	 * -------------------------------loadUserByUsername----------------------------
+	 * ---------------------------------
+	 */
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -77,7 +103,10 @@ public class UserServiceImpl implements UserService {
 		return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
 	}
 
-    /* -------------------------------------------------------------------------------------------- */
+	/*
+	 * ------------------------------------getUser----------------------------------
+	 * ----------------------
+	 */
 
 	@Override
 	public UserDto getUser(String email) {
@@ -89,7 +118,10 @@ public class UserServiceImpl implements UserService {
 		return userDto;
 	}
 
-    /* -------------------------------------------------------------------------------------------- */
+	/*
+	 * ----------------------------------------getUserByUserId----------------------
+	 * ------------------------------
+	 */
 	@Override
 	public UserDto getUserByUserId(String userId) {
 		UserEntity userEntity = userRepository.findByUserId(userId);
@@ -103,7 +135,10 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-    /* -------------------------------------------------------------------------------------------- */
+	/*
+	 * ------------------------------------------updateUser-------------------------
+	 * -------------------------
+	 */
 
 	@Override
 	public UserDto updateUser(String userId, UserDto userDto) {
@@ -128,7 +163,10 @@ public class UserServiceImpl implements UserService {
 		return user; // on a retourné cet nouveau utilisateur
 	}
 
-    /* -------------------------------------------------------------------------------------------- */
+	/*
+	 * ------------------------------------------deleteUser-------------------------
+	 * -------------------------
+	 */
 
 	@Override
 	public void deleteUser(String userId) {
@@ -142,16 +180,19 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-    /* -------------------------------------------------------------------------------------------- */
-	
-	
+	/*
+	 * -----------------------------------------getUsers----------------------------
+	 * -----------------------
+	 */
+
 	@Override
 	public List<UserDto> getUsers(int page, int limit) { // l'objectif de cette methode est de recupération de la liste
 															// des utilisateurs depuis la table users de la base de
 															// donnees
-		
-		if (page>0 ) page -=1; // si la page sup a 0 on va enlever 1
-								//Pour que la page commence avec 1
+
+		if (page > 0)
+			page -= 1; // si la page sup a 0 on va enlever 1
+						// Pour que la page commence avec 1
 		List<UserDto> usersDto = new ArrayList<>(); // Respository est celui qui est responsable de communiquer avec la
 													// base
 
@@ -173,5 +214,8 @@ public class UserServiceImpl implements UserService {
 		return usersDto;
 	}
 
-    /* -------------------------------------------------------------------------------------------- */
+	/*
+	 * -----------------------------------------------------------------------------
+	 * ---------------
+	 */
 }
