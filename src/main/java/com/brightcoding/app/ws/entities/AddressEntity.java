@@ -8,10 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-import com.brightcoding.app.ws.shared.dto.UserDto;
+	
 
-@Entity(name = "addresses")
+@Entity
+@Table(name = "addresses")
 public class AddressEntity implements Serializable {
 
 	private static final long serialVersionUID = 8106560824187969451L;

@@ -1,15 +1,23 @@
 package com.brightcoding.app.ws.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-@Entity(name = "users")
+@Entity
+@Table(name = "users")
 public class UserEntity implements Serializable {
 
 	private static final long serialVersionUID = -5763827745308343856L;
@@ -49,6 +57,20 @@ public class UserEntity implements Serializable {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<AddressEntity> addresses;
+	
+	@OneToOne(mappedBy="user", cascade=CascadeType.ALL )
+	private ContactEntity contact;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="users")
+	private Set<GroupEntity> groups = new HashSet<>();
+
+	public ContactEntity getContact() {
+		return contact;
+	}
+
+	public void setContact(ContactEntity contact) {
+		this.contact = contact;
+	}
 
 	public List<AddressEntity> getAddresses() {
 		return addresses;

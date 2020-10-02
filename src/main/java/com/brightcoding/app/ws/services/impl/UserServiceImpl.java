@@ -70,6 +70,10 @@ public class UserServiceImpl implements UserService {
 	
 		}			
 		
+		user.getContact().setContactId(util.generateStringId(30));	//générer le contact id
+		user.getContact().setUser(user);
+		
+		
 		
 		ModelMapper modelMapper = new ModelMapper();
 		UserEntity userEntity = modelMapper.map(user, UserEntity.class);
