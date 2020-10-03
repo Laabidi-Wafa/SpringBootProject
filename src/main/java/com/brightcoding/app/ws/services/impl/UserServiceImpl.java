@@ -190,27 +190,40 @@ public class UserServiceImpl implements UserService {
 	 */
 
 	@Override
-	public List<UserDto> getUsers(int page, int limit) { // l'objectif de cette methode est de recupération de la liste
+	public List<UserDto> getUsers(int page, int limit , String search, int status) { // l'objectif de cette methode est de recupération de la liste
 															// des utilisateurs depuis la table users de la base de
 															// donnees
 
 		if (page > 0)
 			page -= 1; // si la page sup a 0 on va enlever 1
 						// Pour que la page commence avec 1
+		
+		
 		List<UserDto> usersDto = new ArrayList<>(); // Respository est celui qui est responsable de communiquer avec la
 													// base
 
-		Pageable pageableRequest = PageRequest.of(page, limit);
-
-		Page<UserEntity> userPage = userRepository.findAll(pageableRequest);
+		Pageable pageableRequest = PageRequest.of(page, limit); 
+		Page<UserEntity> userPage;
+		
+		if(search.isEmpty()) {
+			
+			 userPage = userRepository.findAllUsers(pageableRequest);
+		}
+		else {
+			userPage = userRepository.findAllUsersByCriteria(pageableRequest,search,status);
+		}
 
 		List<UserEntity> users = userPage.getContent();
 
 		for (UserEntity userEntity : users) { // users copie a chaque fois le contenu de userDto
 
-			UserDto user = new UserDto();
+			//UserDto user = new UserDto();
+			
+			ModelMapper modelMapper = new ModelMapper();
+			
+			UserDto user = modelMapper.map(userEntity, UserDto.class);
 
-			BeanUtils.copyProperties(userEntity, user); // user copie a chaque fois le contenu de userDto
+			//BeanUtils.copyProperties(userEntity, user); // user copie a chaque fois le contenu de userDto
 
 			usersDto.add(user); // on va ajouter le user a la liste des users
 

@@ -14,7 +14,7 @@ public interface UserService extends UserDetailsService {
 	
     /* -------------------------------------------------------------------------------------------- */
 	
-	List<UserDto> getUsers(int page,int limit);	//le retour de cette methode va etre un objet de type userDto
+	List<UserDto> getUsers(int page, int limit , String search, int status);	//le retour de cette methode va etre un objet de type userDto
 	
     /* -------------------------------------------------------------------------------------------- */
 	

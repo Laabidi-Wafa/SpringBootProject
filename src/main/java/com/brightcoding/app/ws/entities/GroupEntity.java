@@ -13,7 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 @Entity(name="groups")
@@ -29,6 +31,8 @@ public class GroupEntity implements Serializable {
 	@Column(name="name",length=30)
 	private String name;
 	
+	
+	@JsonIgnore
 	@ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name="groups_users", joinColumns= {@JoinColumn(name="groups_id")} , inverseJoinColumns ={@JoinColumn(name="users_id")} )
 	private Set<UserEntity> users = new HashSet<>(); // la difference entre les lists et les sets c'est que les sets n'acceptent pas les duplications 

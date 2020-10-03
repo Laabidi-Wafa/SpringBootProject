@@ -54,15 +54,23 @@ public class UserEntity implements Serializable {
 	 *       on crée un utilisateur addresses se crée avec lui si on supprime un
 	 *       utilisateur addresses se supprime avec lui
 	 */
-
+	/*---------------------------------------------------ONETOMANY------------------------------------------------------------------------------------*/
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<AddressEntity> addresses;
+	/*------------------------------------------------------------------------------------------------------------------------------------------------*/
 	
+	
+	
+	/*---------------------------------------------------ONETOONE-------------------------------------------------------------------------------------*/
 	@OneToOne(mappedBy="user", cascade=CascadeType.ALL )
 	private ContactEntity contact;
+	/*------------------------------------------------------------------------------------------------------------------------------------------------*/
 	
+	
+	/*--------------------------------------------------MANYTOMANY------------------------------------------------------------------------------------*/
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="users")
 	private Set<GroupEntity> groups = new HashSet<>();
+	/*------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public ContactEntity getContact() {
 		return contact;

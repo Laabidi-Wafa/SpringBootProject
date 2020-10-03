@@ -52,12 +52,16 @@ public class UserController {
 	
 	
 	@GetMapping(produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-	public List<UserResponse> getAllUsers(@RequestParam(value="page", 
-	defaultValue="1") int page,@RequestParam(value="limit",defaultValue="15") int limit){ // pour utiliser la pagination il faut spécifier la pages et le nombre d'utilisateur maximal /page
+	public List<UserResponse> getAllUsers
+		   (@RequestParam(value="page", defaultValue="1") int page,
+			@RequestParam(value="limit",defaultValue="15") int limit,
+			@RequestParam(value="search",defaultValue = "") String search,
+			@RequestParam(value="status",defaultValue = "0") int status)
+	{ // pour utiliser la pagination il faut spécifier la pages et le nombre d'utilisateur maximal /page
 		
 		List<UserResponse> usersResponse = new ArrayList<>(); // création de la liste qui va contenir les utilisateurs
 		
-		List<UserDto> users = userService.getUsers(page,limit);
+		List<UserDto> users = userService.getUsers(page,limit,search,status);
 		
 		for ( UserDto userDto : users ) { //users copie a chaque fois le contenu de userDto
 			

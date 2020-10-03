@@ -56,14 +56,6 @@ public class UserDto implements Serializable {
 		this.emailVerificationToken = emailVerificationToken;
 	}
 
-	public Boolean isEmailVerficationStatus() {
-		return emailVerficationStatus;
-	}
-
-	public void setEmailVerficationStatus(Boolean emailVerficationStatus) {
-		this.emailVerficationStatus = emailVerficationStatus;
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}
@@ -110,6 +102,14 @@ public class UserDto implements Serializable {
 
 	public void setContact(ContactDto contact) {
 		this.contact = contact;
+	}
+
+	public Boolean getEmailVerficationStatus() {
+		return emailVerficationStatus;
+	}
+
+	public void setEmailVerficationStatus(Boolean emailVerficationStatus) {
+		this.emailVerficationStatus = emailVerficationStatus;
 	}
 
 }
