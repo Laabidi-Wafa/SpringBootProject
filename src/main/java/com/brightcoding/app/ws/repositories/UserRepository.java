@@ -15,11 +15,14 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
 		
 		UserEntity findByUserId(String userId);
 		
-		
-		
+		/*
 		@Query(value="SELECT * from users", nativeQuery = true)
 		Page<UserEntity> findAllUsers(Pageable pageableRequest); //lorsqu'on execute cette méthode cette requette va s'éxécuter
+		*/
 		
+		
+		@Query("SELECT user from UserEntity user") //from l'entity who interact with the table in the database
+		Page<UserEntity> findAllUsers(Pageable pageableRequest); //lorsqu'on execute cette méthode cette requette va s'éxécuter
 		
 		/*
 		 * 
@@ -34,10 +37,13 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
 
 		
 		
-		/*NAMED PARAMETERS*/	
+		/*NAMED PARAMETERS	
 		@Query(value="SELECT * from users WHERE (users.first_name= :search OR users.last_name = :search) AND users.email_verification_status= :status", nativeQuery = true) 
 		Page<UserEntity> findAllUsersByCriteria(Pageable pageableRequest , @Param("search") String search, @Param("status") int status);												
-
-
+		 */
+		
+		
+		@Query(value="SELECT * from users u WHERE (u.first_name LIKE %:search% OR u.last_name LIKE %:search%) AND u.email_verification_status= :status", nativeQuery = true) 
+		Page<UserEntity> findAllUsersByCriteria(Pageable pageableRequest , @Param("search") String search, @Param("status") int status);
 
 } 

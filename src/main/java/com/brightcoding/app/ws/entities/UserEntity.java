@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import ch.qos.logback.core.subst.Token.Type;
+
 @Entity
 @Table(name = "users")
 public class UserEntity implements Serializable {
@@ -55,14 +57,14 @@ public class UserEntity implements Serializable {
 	 *       utilisateur addresses se supprime avec lui
 	 */
 	/*---------------------------------------------------ONETOMANY------------------------------------------------------------------------------------*/
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user",fetch = FetchType.EAGER ,cascade = CascadeType.ALL) 
 	private List<AddressEntity> addresses;
 	/*------------------------------------------------------------------------------------------------------------------------------------------------*/
 	
 	
 	
 	/*---------------------------------------------------ONETOONE-------------------------------------------------------------------------------------*/
-	@OneToOne(mappedBy="user", cascade=CascadeType.ALL )
+	@OneToOne(mappedBy="user",fetch = FetchType.EAGER, cascade=CascadeType.ALL )
 	private ContactEntity contact;
 	/*------------------------------------------------------------------------------------------------------------------------------------------------*/
 	
