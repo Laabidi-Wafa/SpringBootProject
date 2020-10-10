@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import ch.qos.logback.core.subst.Token.Type;
+
 
 @Entity
 @Table(name = "users")
