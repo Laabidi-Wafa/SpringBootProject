@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ import com.brightcoding.app.ws.responses.ErrorMessages;
 import com.brightcoding.app.ws.responses.UserResponse;
 import com.brightcoding.app.ws.services.UserService;
 import com.brightcoding.app.ws.shared.dto.UserDto;
-
+@CrossOrigin(origins = "*") //tous les clients peuvent déclencher toutes les méthodes de ce controlleur
 @RequestMapping("/users") //localhost:8080/users
 @RestController
 public class UserController {
@@ -49,8 +50,10 @@ public class UserController {
     /* ----------------------------------------GetAllUsers---------------------------------------------------- */
 	
 	
-	
-	
+	/*
+	@CrossOrigin(origins = "http://localhost:4200") //le client qui travaille avec angularJS et qui veut déclencher cette méthode peut.
+		@CrossOrigin(origins = {"http://localhost:4200","http://brightcoding.com"}) //ces deux peuvent acceder
+		@CrossOrigin(origins = "*") //n'importe qui peut acceder a cette methode */
 	@GetMapping(produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public List<UserResponse> getAllUsers
 		   (@RequestParam(value="page", defaultValue="1") int page,
